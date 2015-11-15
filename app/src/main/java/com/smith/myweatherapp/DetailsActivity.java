@@ -15,8 +15,9 @@ import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TextView forecast;
+    TextView forecastDisp;
     List<MyTask> tasks;
+    List<Forecast> forecastList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +26,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        forecast = (TextView) findViewById(R.id.textView4);
-        forecast.setMovementMethod(new ScrollingMovementMethod());
+        forecastDisp = (TextView) findViewById(R.id.textView4);
+        forecastDisp.setMovementMethod(new ScrollingMovementMethod());
 
         tasks = new ArrayList<>();
     }
@@ -55,7 +56,7 @@ public class DetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);*/
 
         if(item.getItemId() == R.id.action_settings){
-            requestData("http://api.wunderground.com/api/bb69b4e8504aea49/" +
+            requestData("http://api.wunderground.com/api/taggoeshere/" +
                     "forecast/bestfct:true/q/33040.xml");}
         return false;
     }
@@ -76,8 +77,14 @@ public class DetailsActivity extends AppCompatActivity {
         task.execute(uri);
     }
 
-    protected void updateDisplay(String message) {
-        forecast.append(message + "\n");
+    protected void updateDisplay() {
+
+        if(forecastList != null) {
+            for (Forecast forecast : forecastList){
+                forecastDisp.append(forecast.getName() + "\n");
+            }
+        }
+
     }
 
     private class MyTask extends AsyncTask<String, String, String>{
@@ -90,13 +97,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            updateDisplay(result);
+
+            forecastList = ForecastParser.parseFeed(result);
+            updateDisplay();
 
         }
 
         @Override
         protected void onProgressUpdate(String... values) {
-            updateDisplay(values[0]);
+
+            //updateDisplay(values[0]);
         }
 
     }
