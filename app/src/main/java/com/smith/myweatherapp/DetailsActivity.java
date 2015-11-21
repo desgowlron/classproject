@@ -30,6 +30,9 @@ public class DetailsActivity extends AppCompatActivity {
         forecastDisp.setMovementMethod(new ScrollingMovementMethod());
 
         tasks = new ArrayList<>();
+
+        requestData("http://api.wunderground.com/api/keygoeshere/" +
+                "forecast/bestfct:true/q/33040.xml");
     }
 
     @Override
@@ -44,7 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -53,12 +56,7 @@ public class DetailsActivity extends AppCompatActivity {
             finish();
         }
 
-        return super.onOptionsItemSelected(item);*/
-
-        if(item.getItemId() == R.id.action_settings){
-            requestData("http://api.wunderground.com/api/taggoeshere/" +
-                    "forecast/bestfct:true/q/33040.xml");}
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     public void btnHandle3(View view) {
