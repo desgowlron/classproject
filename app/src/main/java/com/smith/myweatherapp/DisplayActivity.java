@@ -13,6 +13,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +29,15 @@ public class DisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
 
+        Locator find = new Locator(this);
+        double lat = find.getLatitude();
+        double lon = find.getLongitude();
+        Toast.makeText(getApplicationContext(), "test" + lat + lon, Toast.LENGTH_LONG).show();
+
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl("http://api.wunderground.com/api/" +
-                "keygoeshere/animatedradar/q/33040.gif?newmaps=1");
+                "keygoeshere/animatedradar/q/image.gif?centerlat=" + lat +
+                "&centerlon=" + lon + "&num=5&radius=100&newmaps=1");
     }
 
     @Override
